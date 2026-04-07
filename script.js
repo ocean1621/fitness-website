@@ -93,11 +93,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Active nav link highlight
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+// Active nav link highlight
+  const fullPath = window.location.pathname;
+  const lastPart = fullPath.split('/').pop();
+  const resolvedPage = (lastPart === '' || lastPart === 'strivefit')
+    ? 'index.html'
+    : lastPart;
   document.querySelectorAll('nav ul a').forEach(link => {
+    link.classList.remove('active-link');
     const href = link.getAttribute('href');
-    if (href === currentPage) {
+    if (href === resolvedPage) {
       link.classList.add('active-link');
     }
   });
