@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Plans - StriveFit</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .plans-hero {
+      padding: 60px 20px 30px;
+      text-align: center;
+    }
+    .plans-hero h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    .plans-hero p {
+      color: var(--muted-text);
+      font-size: 16px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter-label {
+      font-size: 13px;
+      color: var(--muted-text);
+      align-self: center;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1.5px solid var(--muted-text);
+      background: none;
+      color: var(--text-color);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .filter-divider {
+      width: 1px;
+      background: var(--muted-text);
+      opacity: 0.3;
+      margin: 0 6px;
+    }
+
+    /* Plans Grid */
+    .plans-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 28px;
+      padding: 10px 40px 80px;
+    }
+
+    /* Plan Card */
+    .plan-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      width: 300px;
+      overflow: hidden;
+      transition: transform 0.3s, opacity 0.3s;
+      border: 1.5px solid rgba(255,255,255,0.06);
+    }
+
+    .light .plan-card {
+      border: 1.5px solid rgba(0,0,0,0.07);
+    }
+
+    .plan-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .plan-card.hidden {
+      display: none;
+    }
+
+    .plan-img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+      background: #333;
+    }
+
+    .plan-img-placeholder {
+      width: 100%;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    }
+
+    .light .plan-img-placeholder {
+      background: linear-gradient(135deg, #ececec, #e0e0e0);
+    }
+
+    .plan-body {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .plan-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-beginner   { background: rgba(0, 200, 100, 0.15); color: #00c864; }
+    .tag-intermediate { background: rgba(255, 180, 0, 0.15); color: #ffb400; }
+    .tag-advanced   { background: rgba(255, 80, 60, 0.15); color: #ff503c; }
+    .tag-focus      { background: rgba(255, 107, 53, 0.12); color: var(--accent-color); }
+    .tag-duration   { background: rgba(150, 150, 150, 0.12); color: var(--muted-text); }
+
+    .plan-body h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text-color);
+    }
+
+    .plan-body p {
+      font-size: 13px;
+      color: var(--muted-text);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .plan-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .plan-meta span {
+      font-size: 12px;
+      color: var(--muted-text);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .plan-meta span strong {
+      color: var(--text-color);
+    }
+
+    .exercise-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 18px;
+    }
+
+    .exercise-list li {
+      font-size: 13px;
+      color: var(--muted-text);
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .light .exercise-list li {
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .exercise-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .plan-btn {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .plan-btn:hover {
+      background: #e05520;
+    }
+
+    .plan-btn.added {
+      background: #00c864;
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      color: var(--muted-text);
+      font-size: 16px;
+      padding: 60px 20px;
+      display: none;
+      width: 100%;
+    }
+
+    .no-results.visible {
+      display: block;
+    }
+    /* Difficulty bar */
+.difficulty-bar-wrap {
+  margin-bottom: 14px;
+}
+.difficulty-bar-wrap label {
+  font-size: 11px;
+  color: var(--muted-text);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.difficulty-bar {
+  height: 5px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.light .difficulty-bar {
+  background: rgba(0,0,0,0.08);
+}
+.difficulty-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: var(--accent-color);
+  transition: width 0.6s ease;
+}
+
+/* Calories badge */
+.calories-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,107,53,0.12);
+  color: var(--accent-color);
+  margin-bottom: 12px;
+}
+
+/* My Plans counter */
+.my-plans-bar {
+  position: sticky;
+  top: 65px;
+  z-index: 90;
+  background: var(--accent-color);
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 14px !important;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: background 0.3s;
+  transform: none !important;
+}
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <h1>StriveFit</h1>
+<ul id="nav-links">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="workout-plans.html" class="active-link">Plans</a></li>
+  <li><a href="exercises.html">Exercises</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+  <button id="menu-btn">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="my-plans-bar">
+  My Plans: <span id="my-plan-count">0</span> selected
+</div>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Side Panel -->
+<div id="side-panel">
+  <ul class="panel-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><button id="policy-btn">Policy</button></li>
+    <li>
+      <div class="theme-row">
+        <span>Theme</span>
+        <button class="theme-btn" id="light-btn" title="Light">☀️</button>
+        <button class="theme-btn" id="dark-btn" title="Dark">🌙</button>
+      </div>
+    </li>
+    <li>
+      <div class="account-section">
+        <button class="account-toggle" id="account-btn">Account</button>
+        <div class="account-details" id="account-details">
+          <div class="user-icon">👤</div>
+          <p>Email: <span>307naeco16@gmail.com</span></p>
+          <p>Mobile: <span>+91 8580513002</span></p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Policy Popup -->
+<div id="policy-popup">
+  <div class="policy-box">
+    <button class="policy-close" id="policy-close">✕</button>
+    <h2>Privacy Policy</h2>
+    <p>At StriveFit, we are committed to safeguarding the privacy and security of our website visitors and users. This Privacy Policy outlines the information we collect, how we use and protect it, and your rights regarding your personal data.</p>
+    <p>By accessing or using our website, you agree to the terms of this Privacy Policy.</p>
+    <h3>Information Collection and Use</h3>
+    <p>We may collect personally identifiable information (PII) such as your name, email address, phone number, postal address, and date of birth when you register, fill out forms, or contact us.</p>
+    <p>We use this information to:</p>
+    <ul>
+      <li>Provide and improve our services and website functionality.</li>
+      <li>Respond to your inquiries and communicate with you.</li>
+      <li>Send promotional materials or newsletters (only if you consent).</li>
+      <li>Monitor and analyze website usage to enhance user experience.</li>
+    </ul>
+    <h3>Cookies and Similar Technologies</h3>
+    <p>We use cookies and similar technologies to collect information about your interaction with our website. You can manage your cookie preferences through your browser settings.</p>
+    <h3>Data Security</h3>
+    <p>We implement appropriate security measures to protect your personal information. Despite our efforts, no internet transmission is completely secure.</p>
+    <h3>Data Sharing and Disclosure</h3>
+    <p>We do not sell, trade, or rent your PII to third parties. We may share your information with trusted service providers bound by confidentiality agreements.</p>
+    <h3>Children's Privacy</h3>
+    <p>Our website is not intended for children under the age of 16.</p>
+    <h3>Your Rights</h3>
+    <p>You have the right to access, correct, update, or delete the personal information we hold.</p>
+    <h3>Contact Us</h3>
+    <p>If you have any questions, please feel free to mail us at: <span style="color:var(--accent-color)">307naeco16@gmail.com</span></p>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="plans-hero">
+  <h2>Workout <span style="color:var(--accent-color)">Plans</span></h2>
+  <p>Choose a plan that fits your level and goal. Filter by difficulty or body focus.</p>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <span class="filter-label">Difficulty:</span>
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter-diff="all">All</button>
+    <button class="filter-btn" data-filter-diff="beginner">Beginner</button>
+    <button class="filter-btn" data-filter-diff="intermediate">Intermediate</button>
+    <button class="filter-btn" data-filter-diff="advanced">Advanced</button>
+  </div>
+  <div class="filter-divider"></div>
+  <span class="filter-label">Focus:</span>
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter-focus="all">All</button>
+    <button class="filter-btn" data-filter-focus="arms">Arms</button>
+    <button class="filter-btn" data-filter-focus="legs">Legs</button>
+    <button class="filter-btn" data-filter-focus="fullbody">Full Body</button>
+  </div>
+</div>
+
+<!-- Plans Grid -->
+<div class="plans-grid" id="plans-grid">
+  <p class="no-results" id="no-results">No plans match your filters. Try a different combination.</p>
+
+  <!-- Card 1 -->
+  <div class="plan-card" data-diff="beginner" data-focus="fullbody">
+    <div class="plan-img-placeholder">🏃</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-beginner">Beginner</span>
+        <span class="tag tag-focus">Full Body</span>
+        <span class="tag tag-duration">30 min</span>
+      </div>
+      <h3>Full Body Kickstart</h3>
+      <p>A gentle introduction to fitness. Perfect if you're just starting out and want to build a habit.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>30 min</strong></span>
+        <span>🔥 <strong>3x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>10 Jumping Jacks</li>
+        <li>10 Squats</li>
+        <li>8 Push-ups (knee)</li>
+        <li>20s Plank</li>
+        <li>10 Lunges</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="plan-card" data-diff="beginner" data-focus="arms">
+    <div class="plan-img-placeholder">💪</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-beginner">Beginner</span>
+        <span class="tag tag-focus">Arms</span>
+        <span class="tag tag-duration">20 min</span>
+      </div>
+      <h3>Arm Toning Starter</h3>
+      <p>Build arm strength from scratch. No equipment needed, just your body weight.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>20 min</strong></span>
+        <span>🔥 <strong>4x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>15 Arm Circles</li>
+        <li>10 Tricep Dips (chair)</li>
+        <li>8 Push-ups</li>
+        <li>12 Bicep Curls (bottle)</li>
+        <li>30s Arm Hold</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="plan-card" data-diff="beginner" data-focus="legs">
+    <div class="plan-img-placeholder">🦵</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-beginner">Beginner</span>
+        <span class="tag tag-focus">Legs</span>
+        <span class="tag tag-duration">25 min</span>
+      </div>
+      <h3>Leg Day Basics</h3>
+      <p>Strengthen your lower body with simple moves. Great for building a solid foundation.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>25 min</strong></span>
+        <span>🔥 <strong>3x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>20 Squats</li>
+        <li>15 Lunges each side</li>
+        <li>20 Calf Raises</li>
+        <li>10 Glute Bridges</li>
+        <li>30s Wall Sit</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="plan-card" data-diff="intermediate" data-focus="fullbody">
+    <div class="plan-img-placeholder">🏋️</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-intermediate">Intermediate</span>
+        <span class="tag tag-focus">Full Body</span>
+        <span class="tag tag-duration">45 min</span>
+      </div>
+      <h3>Total Body Burn</h3>
+      <p>Push your limits with a complete full-body circuit. Builds strength and burns calories.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>45 min</strong></span>
+        <span>🔥 <strong>4x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>20 Burpees</li>
+        <li>15 Push-ups</li>
+        <li>20 Jump Squats</li>
+        <li>1 min Plank</li>
+        <li>15 Mountain Climbers</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="plan-card" data-diff="intermediate" data-focus="arms">
+    <div class="plan-img-placeholder">🤸</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-intermediate">Intermediate</span>
+        <span class="tag tag-focus">Arms</span>
+        <span class="tag tag-duration">30 min</span>
+      </div>
+      <h3>Upper Body Power</h3>
+      <p>Target your chest, shoulders, and arms for a sculpted upper body. Intensity level: medium-high.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>30 min</strong></span>
+        <span>🔥 <strong>4x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>15 Diamond Push-ups</li>
+        <li>12 Pike Push-ups</li>
+        <li>20 Tricep Dips</li>
+        <li>15 Wide Push-ups</li>
+        <li>30s Push-up Hold</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="plan-card" data-diff="intermediate" data-focus="legs">
+    <div class="plan-img-placeholder">⚡</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-intermediate">Intermediate</span>
+        <span class="tag tag-focus">Legs</span>
+        <span class="tag tag-duration">35 min</span>
+      </div>
+      <h3>Legs & Glutes Blast</h3>
+      <p>An intense lower body session to sculpt your legs and glutes. Feel the burn!</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>35 min</strong></span>
+        <span>🔥 <strong>3x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>25 Jump Squats</li>
+        <li>20 Bulgarian Split Squats</li>
+        <li>15 Glute Bridges</li>
+        <li>20 Lateral Lunges</li>
+        <li>1 min Wall Sit</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="plan-card" data-diff="advanced" data-focus="fullbody">
+    <div class="plan-img-placeholder">🔥</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-advanced">Advanced</span>
+        <span class="tag tag-focus">Full Body</span>
+        <span class="tag tag-duration">60 min</span>
+      </div>
+      <h3>Elite Full Body Circuit</h3>
+      <p>High-intensity circuit training for seasoned athletes. Not for the faint-hearted.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>60 min</strong></span>
+        <span>🔥 <strong>5x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>30 Burpees</li>
+        <li>25 Clap Push-ups</li>
+        <li>30 Jump Squats</li>
+        <li>20 Tuck Jumps</li>
+        <li>2 min Plank</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="plan-card" data-diff="advanced" data-focus="arms">
+    <div class="plan-img-placeholder">🦾</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-advanced">Advanced</span>
+        <span class="tag tag-focus">Arms</span>
+        <span class="tag tag-duration">40 min</span>
+      </div>
+      <h3>Beast Mode Arms</h3>
+      <p>Maximum arm strength and definition. Pushes your upper body to its absolute limit.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>40 min</strong></span>
+        <span>🔥 <strong>5x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>20 Clap Push-ups</li>
+        <li>15 Archer Push-ups</li>
+        <li>20 One-arm Tricep Dips</li>
+        <li>Handstand Hold 30s</li>
+        <li>20 Pseudo Planche</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+  <!-- Card 9 -->
+  <div class="plan-card" data-diff="advanced" data-focus="legs">
+    <div class="plan-img-placeholder">🏆</div>
+    <div class="plan-body">
+      <div class="plan-tags">
+        <span class="tag tag-advanced">Advanced</span>
+        <span class="tag tag-focus">Legs</span>
+        <span class="tag tag-duration">50 min</span>
+      </div>
+      <h3>Legs of Steel</h3>
+      <p>The ultimate lower body destroyer. Builds explosive power and raw leg strength.</p>
+      <div class="plan-meta">
+        <span>⏱ <strong>50 min</strong></span>
+        <span>🔥 <strong>4x / week</strong></span>
+      </div>
+      <ul class="exercise-list">
+        <li>20 Pistol Squats</li>
+        <li>30 Plyometric Lunges</li>
+        <li>25 Box Jumps</li>
+        <li>20 Nordic Curls</li>
+        <li>2 min Wall Sit</li>
+      </ul>
+      <button class="plan-btn" onclick="addPlan(this)">Add to My Plan</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 StriveFit</p>
+  <p>
+    <a href="#">Instagram</a> |
+    <a href="#">YouTube</a> |
+    <a href="#">Contact</a>
+  </p>
+</footer>
+
+
+<script>
+// ---- script.js logic (copied so theme works here too) ----
+const menuBtn = document.getElementById("menu-btn");
+const sidePanel = document.getElementById("side-panel");
+const overlay = document.getElementById("overlay");
+
+const savedTheme = localStorage.getItem("strivefit-theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+  document.getElementById("light-btn").classList.add("active");
+} else {
+  document.getElementById("dark-btn").classList.add("active");
+}
+
+menuBtn.addEventListener("click", () => {
+  sidePanel.classList.toggle("open");
+  overlay.classList.toggle("active");
+});
+
+overlay.addEventListener("click", () => {
+  sidePanel.classList.remove("open");
+  overlay.classList.remove("active");
+  document.getElementById("account-details").classList.remove("open");
+});
+
+const policyBtn = document.getElementById("policy-btn");
+const policyPopup = document.getElementById("policy-popup");
+const policyClose = document.getElementById("policy-close");
+
+policyBtn.addEventListener("click", () => {
+  policyPopup.classList.add("open");
+  sidePanel.classList.remove("open");
+  overlay.classList.remove("active");
+});
+
+policyClose.addEventListener("click", () => {
+  policyPopup.classList.remove("open");
+});
+
+policyPopup.addEventListener("click", (e) => {
+  if (e.target === policyPopup) policyPopup.classList.remove("open");
+});
+
+const lightBtn = document.getElementById("light-btn");
+const darkBtn = document.getElementById("dark-btn");
+
+lightBtn.addEventListener("click", () => {
+  document.body.classList.add("light");
+  lightBtn.classList.add("active");
+  darkBtn.classList.remove("active");
+  localStorage.setItem("strivefit-theme", "light");
+});
+
+darkBtn.addEventListener("click", () => {
+  document.body.classList.remove("light");
+  darkBtn.classList.add("active");
+  lightBtn.classList.remove("active");
+  localStorage.setItem("strivefit-theme", "dark");
+});
+
+document.getElementById("account-btn").addEventListener("click", () => {
+  document.getElementById("account-details").classList.toggle("open");
+});
+
+// ---- Workout Plans page logic ----
+let activeDiff = 'all';
+let activeFocus = 'all';
+
+document.querySelectorAll('[data-filter-diff]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter-diff]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeDiff = btn.dataset.filterDiff;
+    applyFilters();
+  });
+});
+
+document.querySelectorAll('[data-filter-focus]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter-focus]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFocus = btn.dataset.filterFocus;
+    applyFilters();
+  });
+});
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.plan-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const diffMatch = activeDiff === 'all' || card.dataset.diff === activeDiff;
+    const focusMatch = activeFocus === 'all' || card.dataset.focus === activeFocus;
+    if (diffMatch && focusMatch) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  document.getElementById('no-results').classList.toggle('visible', visible === 0);
+}
+
+let myPlanCount = 0;
+
+function addPlan(btn) {
+  if (btn.classList.contains('added')) {
+    btn.textContent = 'Add to My Plan';
+    btn.classList.remove('added');
+    myPlanCount--;
+  } else {
+    btn.textContent = '✓ Added!';
+    btn.classList.add('added');
+    myPlanCount++;
+  }
+  document.getElementById('my-plan-count').textContent = myPlanCount;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StriveFit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <h1>StriveFit</h1>
+  <ul id="nav-links">
+    <li><a href="index.html" class="active-link">Home</a></li>
+    <li><a href="workout-plans.html">Plans</a></li>
+    <li><a href="exercises.html">Exercises</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button id="menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Side Panel -->
+<div id="side-panel">
+  <ul class="panel-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><button id="policy-btn">Policy</button></li>
+    <li>
+      <div class="theme-row">
+        <span>Theme</span>
+        <button class="theme-btn" id="light-btn" title="Light">☀️</button>
+        <button class="theme-btn" id="dark-btn" title="Dark">🌙</button>
+      </div>
+    </li>
+    <li>
+      <div class="account-section">
+        <button class="account-toggle" id="account-btn">👤 Account</button>
+        <div class="account-details" id="account-details">
+          <div class="user-icon">👤</div>
+          <p>Email: <span>307naeco16@gmail.com</span></p>
+          <p>Mobile: <span>+91 8580513002</span></p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Policy Popup -->
+<div id="policy-popup">
+  <div class="policy-box">
+    <button class="policy-close" id="policy-close">✕</button>
+    <h2>Privacy Policy</h2>
+    <p>At StriveFit, we are committed to safeguarding the privacy and security of our website visitors and users.</p>
+    <p>By accessing or using our website, you agree to the terms of this Privacy Policy.</p>
+    <h3>Information Collection and Use</h3>
+    <p>We may collect personally identifiable information such as your name, email address, phone number, and date of birth when you register or contact us.</p>
+    <h3>Cookies and Similar Technologies</h3>
+    <p>We use cookies to collect information about your interaction with our website.</p>
+    <h3>Data Security</h3>
+    <p>We implement appropriate security measures to protect your personal information.</p>
+    <h3>Children's Privacy</h3>
+    <p>Our website is not intended for children under the age of 16.</p>
+    <h3>Contact Us</h3>
+    <p>Questions? Mail us at: <span style="color:var(--accent-color)">307naeco16@gmail.com</span></p>
+  </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h2>Welcome to <span>StriveFit</span></h2>
+  <p>Your journey to fitness starts here.</p>
+  <button>Get Started</button>
+</section>
+
+<section class="why-us">
+  <h2>Why Choose StriveFit?</h2>
+  <div class="why-cards">
+    <div class="card">
+      <h3>Expert Workouts</h3>
+      <p>Workouts created by certified trainers for every level.</p>
+    </div>
+    <div class="card">
+      <h3>Personalized Plans</h3>
+      <p>Meal and exercise plans tailored just for you.</p>
+    </div>
+    <div class="card">
+      <h3>Progress Tracking</h3>
+      <p>Track your improvements with ease and motivation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2>What Our Users Say</h2>
+  <div class="testimonial-cards">
+    <div class="card">
+      <p>"StriveFit helped me lose 10kg in 3 months! Amazing trainers."</p>
+      <h4>- Alex P.</h4>
+    </div>
+    <div class="card">
+      <p>"The personalized nutrition plan changed my life."</p>
+      <h4>- Priya S.</h4>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER SECTION -->
+<section class="progress-section" id="progress-section">
+  <h2>Progress <span>Tracker</span></h2>
+  <p class="progress-sub">Track your water, workouts, and weight — every day counts.</p>
+
+  <div class="progress-grid">
+
+    <!-- WATER TRACKER -->
+    <div class="tracker-card" id="water-tracker">
+      <div class="tracker-header">
+        <h3>💧 Water Intake</h3>
+        <div class="water-goal-row">
+          <label>Goal:</label>
+          <input type="number" id="water-goal-input" value="8" min="1" max="20" />
+          <span>glasses</span>
+          <button onclick="setWaterGoal()">Set</button>
+        </div>
+      </div>
+      <div class="glasses-container" id="glasses-container"></div>
+      <div class="water-count-row">
+        <span id="water-count">0</span> / <span id="water-goal-display">8</span> glasses
+        <button class="reset-btn" onclick="resetWater()">↺ Reset</button>
+      </div>
+      <div class="water-msg" id="water-msg"></div>
+    </div>
+
+    <!-- WORKOUT CHECK-OFF -->
+    <div class="tracker-card" id="workout-tracker">
+      <div class="tracker-header">
+        <h3>🏋️ Weekly Workouts</h3>
+      </div>
+      <div class="days-grid" id="days-grid"></div>
+      <div class="workout-summary" id="workout-summary">0 / 7 days done this week</div>
+      <div class="streak-badge" id="streak-badge" style="display:none;">🔥 <span id="streak-num">0</span> day streak!</div>
+    </div>
+
+    <!-- WEIGHT LOG -->
+    <div class="tracker-card" id="weight-tracker">
+      <div class="tracker-header">
+        <h3>⚖️ Weight Log</h3>
+      </div>
+      <div class="weight-entry-row">
+        <input type="number" id="weight-input" placeholder="kg today" min="20" max="300" step="0.1" />
+        <button onclick="logWeight()">Log</button>
+      </div>
+      <div class="weight-list" id="weight-list"></div>
+      <div class="weight-trend" id="weight-trend"></div>
+      <!-- ✅ RESET BUTTON ADDED -->
+      <button class="reset-btn" onclick="resetWeightLog()" style="margin-top:12px;">↺ Reset Weight Log</button>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.progress-section {
+  margin-top: 80px;
+  padding: 60px 20px 40px;
+}
+.progress-section h2 { font-size: 36px; margin-bottom: 8px; }
+.progress-section h2 span { color: var(--accent-color); }
+.progress-sub { color: var(--muted-text); margin-bottom: 36px; font-size: 15px; }
+
+.progress-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.tracker-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  width: 300px;
+  border: 1.5px solid rgba(255,255,255,0.06);
+  text-align: left;
+}
+.light .tracker-card { border-color: rgba(0,0,0,0.07); }
+
+.tracker-header { margin-bottom: 18px; }
+.tracker-header h3 { font-size: 16px; color: var(--text-color); margin-bottom: 10px; }
+
+.water-goal-row {
+  display: flex; gap: 8px; align-items: center;
+  font-size: 13px; color: var(--muted-text);
+}
+.water-goal-row input {
+  width: 50px; padding: 5px 8px; border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  background: var(--bg-color); color: var(--text-color);
+  font-size: 13px; text-align: center;
+}
+.light .water-goal-row input { border-color: rgba(0,0,0,0.12); }
+.water-goal-row button {
+  padding: 5px 10px; border-radius: 6px;
+  background: var(--accent-color); color: #fff;
+  border: none; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+
+.glasses-container {
+  display: flex; flex-wrap: wrap;
+  gap: 8px; margin-bottom: 14px;
+  min-height: 80px;
+}
+
+.glass {
+  font-size: 28px; cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+  filter: grayscale(1) opacity(0.35);
+  user-select: none;
+  animation: glassIdle 2s ease-in-out infinite alternate;
+}
+.glass:nth-child(2n) { animation-delay: 0.3s; }
+.glass:nth-child(3n) { animation-delay: 0.6s; }
+
+@keyframes glassIdle {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-3px); }
+}
+
+.glass.filled {
+  filter: grayscale(0) opacity(1);
+  animation: glassFill 0.4s ease, glassWave 2s ease-in-out 0.4s infinite alternate;
+}
+
+@keyframes glassFill {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+@keyframes glassWave {
+  from { transform: translateY(0) rotate(-3deg); }
+  to   { transform: translateY(-4px) rotate(3deg); }
+}
+
+.water-count-row {
+  font-size: 14px; color: var(--muted-text);
+  display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+}
+.reset-btn {
+  margin-left: auto; padding: 4px 10px; border-radius: 6px;
+  background: none; border: 1px solid var(--muted-text);
+  color: var(--muted-text); font-size: 12px; cursor: pointer;
+}
+.reset-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.water-msg { font-size: 13px; color: var(--accent-color); font-weight: 600; min-height: 20px; }
+
+.days-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 6px; margin-bottom: 14px;
+}
+.day-btn {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 8px 4px; border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  background: none; cursor: pointer;
+  transition: all 0.2s; color: var(--muted-text);
+}
+.light .day-btn { border-color: rgba(0,0,0,0.1); }
+.day-btn .day-label { font-size: 10px; font-weight: 700; }
+.day-btn .day-icon { font-size: 16px; }
+.day-btn.done {
+  background: rgba(0,200,100,0.15);
+  border-color: #00c864;
+  color: #00c864;
+}
+.day-btn.done .day-icon::after { content: '✓'; font-size: 14px; }
+.workout-summary { font-size: 13px; color: var(--muted-text); margin-bottom: 8px; }
+.streak-badge {
+  font-size: 13px; font-weight: 700; color: #ff6b35;
+  background: rgba(255,107,53,0.1); border-radius: 8px;
+  padding: 6px 12px; display: inline-block;
+}
+
+.weight-entry-row {
+  display: flex; gap: 8px; margin-bottom: 14px;
+}
+.weight-entry-row input {
+  flex: 1; padding: 9px 12px; border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  background: var(--bg-color); color: var(--text-color); font-size: 14px;
+}
+.light .weight-entry-row input { border-color: rgba(0,0,0,0.12); }
+.weight-entry-row button {
+  padding: 9px 16px; border-radius: 8px;
+  background: var(--accent-color); color: #fff;
+  border: none; font-weight: 700; cursor: pointer; font-size: 14px;
+}
+.weight-entry-row button:hover { background: #e05520; }
+
+.weight-list {
+  display: flex; flex-direction: column; gap: 6px;
+  max-height: 160px; overflow-y: auto; margin-bottom: 10px;
+}
+.weight-item {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; padding: 6px 10px; border-radius: 6px;
+  background: var(--bg-color);
+}
+.weight-item .wi-val { font-weight: 700; color: var(--text-color); }
+.weight-item .wi-date { color: var(--muted-text); font-size: 11px; }
+.weight-item .wi-delta { font-size: 11px; font-weight: 700; }
+.weight-item .wi-delta.up { color: #ff503c; }
+.weight-item .wi-delta.down { color: #00c864; }
+
+.weight-trend {
+  font-size: 13px; color: var(--muted-text);
+  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;
+}
+.light .weight-trend { border-top-color: rgba(0,0,0,0.06); }
+</style>
+
+<script>
+// ---- WATER TRACKER ----
+let waterGoal = parseInt(localStorage.getItem('sf-water-goal') || '8');
+let waterDrank = parseInt(localStorage.getItem('sf-water-today') || '0');
+
+function buildGlasses() {
+  const container = document.getElementById('glasses-container');
+  container.innerHTML = '';
+  document.getElementById('water-goal-display').textContent = waterGoal;
+  document.getElementById('water-count').textContent = waterDrank;
+
+  for (let i = 0; i < waterGoal; i++) {
+    const g = document.createElement('span');
+    g.className = 'glass' + (i < waterDrank ? ' filled' : '');
+    g.textContent = '🥛';
+    g.title = 'Glass ' + (i + 1);
+    g.onclick = () => drinkGlass(i);
+    container.appendChild(g);
+  }
+
+  const pct = waterDrank / waterGoal;
+  const msg = document.getElementById('water-msg');
+  if (waterDrank >= waterGoal) msg.textContent = '🎉 Goal reached! You\'re hydrated!';
+  else if (pct >= 0.5) msg.textContent = 'Halfway there! 🌊';
+  else if (pct > 0) msg.textContent = 'Keep going! 💪';
+  else msg.textContent = '';
+}
+
+function drinkGlass(idx) {
+  if (idx === waterDrank) waterDrank++;
+  else if (idx === waterDrank - 1) waterDrank--;
+  waterDrank = Math.max(0, Math.min(waterGoal, waterDrank));
+  localStorage.setItem('sf-water-today', waterDrank);
+  buildGlasses();
+}
+
+function setWaterGoal() {
+  const val = parseInt(document.getElementById('water-goal-input').value);
+  if (val >= 1 && val <= 20) {
+    waterGoal = val;
+    waterDrank = 0;
+    localStorage.setItem('sf-water-goal', waterGoal);
+    localStorage.setItem('sf-water-today', 0);
+    buildGlasses();
+  }
+}
+
+function resetWater() {
+  waterDrank = 0;
+  localStorage.setItem('sf-water-today', 0);
+  buildGlasses();
+}
+
+// ---- WORKOUT TRACKER ----
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAY_ICONS = ['🏃', '🏋️', '🤸', '🚴', '🏊', '⚽', '🧘'];
+
+function getWeekKey() {
+  const now = new Date();
+  const start = new Date(now);
+  start.setDate(now.getDate() - now.getDay());
+  return 'sf-week-' + start.toISOString().slice(0, 10);
+}
+
+function buildWorkout() {
+  const key = getWeekKey();
+  const done = JSON.parse(localStorage.getItem(key) || '[]');
+  const grid = document.getElementById('days-grid');
+  grid.innerHTML = '';
+
+  DAYS.forEach((day, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (done.includes(i) ? ' done' : '');
+    btn.innerHTML = `<span class="day-label">${day}</span><span class="day-icon">${done.includes(i) ? '' : DAY_ICONS[i]}</span>`;
+    btn.onclick = () => toggleDay(i);
+    grid.appendChild(btn);
+  });
+
+  const count = done.length;
+  document.getElementById('workout-summary').textContent = `${count} / 7 days done this week`;
+
+  const streak = parseInt(localStorage.getItem('sf-streak') || '0');
+  const badge = document.getElementById('streak-badge');
+  if (streak > 0) {
+    badge.style.display = 'inline-block';
+    document.getElementById('streak-num').textContent = streak;
+  }
+}
+
+function toggleDay(idx) {
+  const key = getWeekKey();
+  let done = JSON.parse(localStorage.getItem(key) || '[]');
+  if (done.includes(idx)) done = done.filter(d => d !== idx);
+  else done.push(idx);
+  localStorage.setItem(key, JSON.stringify(done));
+
+  let streak = done.length;
+  localStorage.setItem('sf-streak', streak);
+  buildWorkout();
+}
+
+// ---- WEIGHT LOG ----
+function logWeight() {
+  const val = parseFloat(document.getElementById('weight-input').value);
+  if (!val || val < 20 || val > 300) { alert('Enter a valid weight (20–300 kg)'); return; }
+
+  const logs = JSON.parse(localStorage.getItem('sf-weights') || '[]');
+  const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+  logs.unshift({ val, date: today });
+  if (logs.length > 10) logs.pop();
+  localStorage.setItem('sf-weights', JSON.stringify(logs));
+  document.getElementById('weight-input').value = '';
+  renderWeightLog();
+}
+
+// ✅ NEW: Reset weight log
+function resetWeightLog() {
+  if (confirm('Clear all weight log entries?')) {
+    localStorage.removeItem('sf-weights');
+    renderWeightLog();
+  }
+}
+
+function renderWeightLog() {
+  const logs = JSON.parse(localStorage.getItem('sf-weights') || '[]');
+  const list = document.getElementById('weight-list');
+  list.innerHTML = '';
+
+  if (logs.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted-text);font-size:13px;padding:8px 0;">No entries yet. Log your first weight!</p>';
+    document.getElementById('weight-trend').textContent = '';
+    return;
+  }
+
+  logs.forEach((entry, i) => {
+    const prev = logs[i + 1];
+    let deltaHTML = '';
+    if (prev) {
+      const diff = (entry.val - prev.val).toFixed(1);
+      const cls = diff > 0 ? 'up' : 'down';
+      const arrow = diff > 0 ? '▲' : '▼';
+      deltaHTML = `<span class="wi-delta ${cls}">${arrow} ${Math.abs(diff)}</span>`;
+    }
+    list.innerHTML += `
+      <div class="weight-item">
+        <span class="wi-val">${entry.val} kg</span>
+        <span class="wi-date">${entry.date}</span>
+        ${deltaHTML}
+      </div>`;
+  });
+
+  if (logs.length >= 2) {
+    const diff = (logs[0].val - logs[logs.length - 1].val).toFixed(1);
+    const trend = diff < 0 ? `↓ ${Math.abs(diff)} kg lost overall 🎉` : diff > 0 ? `↑ ${diff} kg gained overall` : 'Weight stable ✓';
+    document.getElementById('weight-trend').textContent = trend;
+  }
+}
+
+buildGlasses();
+buildWorkout();
+renderWeightLog();
+</script>
+
+<!-- BMI CALCULATOR -->
+<section class="bmi-section" id="bmi">
+  <h2>BMI <span style="color:var(--accent-color)">Calculator</span></h2>
+  <p class="section-sub">Find out your Body Mass Index and get personalised tips.</p>
+
+  <div class="bmi-wrapper">
+    <div class="bmi-form-box">
+      <div class="bmi-field">
+        <label>Height</label>
+        <div class="bmi-input-row">
+          <input type="number" id="bmi-height" placeholder="e.g. 170" min="50" max="250" />
+          <span class="bmi-unit">cm</span>
+        </div>
+      </div>
+      <div class="bmi-field">
+        <label>Weight</label>
+        <div class="bmi-input-row">
+          <input type="number" id="bmi-weight" placeholder="e.g. 65" min="10" max="300" />
+          <span class="bmi-unit">kg</span>
+        </div>
+      </div>
+      <div class="bmi-field">
+        <label>Age</label>
+        <div class="bmi-input-row">
+          <input type="number" id="bmi-age" placeholder="e.g. 22" min="5" max="100" />
+          <span class="bmi-unit">yrs</span>
+        </div>
+      </div>
+      <div class="bmi-field">
+        <label>Gender</label>
+        <div class="bmi-gender-row">
+          <button class="gender-btn active" id="gender-male" onclick="selectGender('male')">Male</button>
+          <button class="gender-btn" id="gender-female" onclick="selectGender('female')">Female</button>
+        </div>
+      </div>
+      <button class="bmi-calc-btn" onclick="calculateBMI()">Calculate BMI</button>
+    </div>
+
+    <div class="bmi-result-box" id="bmi-result-box" style="display:none;">
+      <div class="bmi-gif" id="bmi-gif">😊</div>
+      <div class="bmi-number" id="bmi-number">--</div>
+      <div class="bmi-category" id="bmi-category">--</div>
+      <div class="bmi-scale">
+        <div class="bmi-scale-bar">
+          <div class="bmi-scale-fill" id="bmi-scale-fill"></div>
+          <div class="bmi-scale-marker" id="bmi-scale-marker"></div>
+        </div>
+        <div class="bmi-scale-labels">
+          <span>Underweight</span><span>Normal</span><span>Overweight</span><span>Obese</span>
+        </div>
+      </div>
+      <button class="bmi-suggest-btn" id="bmi-suggest-btn" onclick="toggleSuggestions()">Need Suggestions to Improve →</button>
+    </div>
+
+    <div class="bmi-suggestions-box" id="bmi-suggestions-box" style="display:none;">
+      <h3 id="suggest-title">Suggestions</h3>
+      <ul class="suggest-list" id="suggest-list"></ul>
+    </div>
+  </div>
+</section>
+
+<style>
+.bmi-section { padding: 80px 20px 60px; background: var(--bg-color); }
+.bmi-section h2 { font-size: 36px; margin-bottom: 8px; }
+.section-sub { color: var(--muted-text); margin-bottom: 40px; font-size: 15px; }
+.bmi-wrapper { display: flex; justify-content: center; align-items: flex-start; gap: 24px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
+.bmi-form-box { background: var(--card-bg); border-radius: 16px; padding: 30px 28px; width: 280px; text-align: left; }
+.bmi-field { margin-bottom: 18px; }
+.bmi-field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted-text); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.bmi-input-row { display: flex; align-items: center; background: var(--bg-color); border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.08); overflow: hidden; }
+.light .bmi-input-row { border: 1.5px solid rgba(0,0,0,0.1); }
+.bmi-input-row input { flex: 1; background: none; border: none; outline: none; padding: 10px 14px; color: var(--text-color); font-size: 16px; width: 100%; }
+.bmi-unit { padding: 0 12px; font-size: 12px; font-weight: 700; color: var(--accent-color); }
+.bmi-gender-row { display: flex; gap: 10px; }
+.gender-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid var(--muted-text); background: none; color: var(--text-color); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.gender-btn.active { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+.bmi-calc-btn { width: 100%; padding: 13px; background: var(--accent-color); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: background 0.2s, transform 0.1s; }
+.bmi-calc-btn:hover { background: #e05520; }
+.bmi-calc-btn:active { transform: scale(0.98); }
+.bmi-result-box { background: var(--card-bg); border-radius: 16px; padding: 30px 28px; width: 260px; text-align: center; animation: fadeInUp 0.4s ease; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.bmi-gif { font-size: 72px; margin-bottom: 12px; animation: bounce 0.8s ease infinite alternate; line-height: 1; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+.bmi-number { font-size: 52px; font-weight: 800; color: var(--accent-color); line-height: 1; }
+.bmi-category { font-size: 18px; font-weight: 700; margin: 8px 0 20px; color: var(--text-color); }
+.bmi-scale { margin-bottom: 20px; }
+.bmi-scale-bar { position: relative; height: 10px; border-radius: 10px; background: linear-gradient(to right, #4fc3f7, #66bb6a, #ffb400, #ff503c); margin-bottom: 6px; }
+.bmi-scale-marker { position: absolute; top: -5px; width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 3px solid var(--accent-color); transform: translateX(-50%); transition: left 0.6s cubic-bezier(.34,1.56,.64,1); }
+.bmi-scale-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted-text); }
+.bmi-suggest-btn { width: 100%; padding: 11px; background: none; border: 2px solid var(--accent-color); color: var(--accent-color); border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.bmi-suggest-btn:hover { background: var(--accent-color); color: #fff; }
+.bmi-suggestions-box { background: var(--card-bg); border-radius: 16px; padding: 28px 24px; width: 260px; text-align: left; animation: fadeInUp 0.4s ease; }
+.bmi-suggestions-box h3 { color: var(--accent-color); font-size: 16px; margin-bottom: 16px; font-weight: 700; }
+.suggest-list { list-style: none; padding: 0; }
+.suggest-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted-text); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); line-height: 1.5; }
+.light .suggest-list li { border-bottom: 1px solid rgba(0,0,0,0.07); }
+.suggest-list li::before { content: '✦'; color: var(--accent-color); font-size: 10px; margin-top: 3px; flex-shrink: 0; }
+</style>
+
+<script>
+let selectedGender = 'male';
+let suggestionsVisible = false;
+
+function selectGender(g) {
+  selectedGender = g;
+  document.getElementById('gender-male').classList.toggle('active', g === 'male');
+  document.getElementById('gender-female').classList.toggle('active', g === 'female');
+}
+
+const suggestionMap = {
+  underweight: { title: '💪 Tips to Gain Healthy Weight', items: ['Eat calorie-dense foods: nuts, avocado, whole grains.','Add a protein shake or smoothie between meals.','Do resistance training 3x per week to build muscle.','Eat 5–6 smaller meals instead of 3 large ones.','Track your calories and aim for a 300–500 kcal surplus.','Sleep 7–9 hours — growth hormone peaks at night.'] },
+  normal: { title: '🌟 Keep Up the Great Work!', items: ['Maintain balanced meals: 50% veg, 25% protein, 25% carbs.','Stay active with 150 min of moderate exercise per week.','Drink at least 8 glasses of water daily.','Get annual health check-ups to monitor key markers.','Prioritise sleep and stress management.','You\'re in the healthy range — consistency is key!'] },
+  overweight: { title: '🥗 Tips to Reach a Healthy Weight', items: ['Create a moderate calorie deficit of 300–500 kcal/day.','Swap refined carbs for whole grains.','Walk at least 10,000 steps daily.','Include 25–30g of protein at every meal to stay full.','Reduce sugary drinks — replace with water or green tea.','Strength training preserves muscle while losing fat.'] },
+  obese: { title: '❤️ Start Your Health Journey Today', items: ['Consult a doctor or dietitian for a personalised plan.','Start with low-impact exercise: walking, swimming, cycling.','Cut out ultra-processed foods and cook at home more.','Lose weight gradually: 0.5–1 kg/week is sustainable.','Track what you eat using an app like MyFitnessPal.','Small habits compound — celebrate every win!'] }
+};
+
+function calculateBMI() {
+  const h = parseFloat(document.getElementById('bmi-height').value);
+  const w = parseFloat(document.getElementById('bmi-weight').value);
+  const a = parseFloat(document.getElementById('bmi-age').value);
+  if (!h || !w || !a || h < 50 || w < 10 || a < 5) { alert('Please enter valid height, weight, and age.'); return; }
+  const bmi = w / ((h / 100) ** 2);
+  const rounded = bmi.toFixed(1);
+  let category, gif, markerPos, color;
+  if (bmi < 18.5) { category = 'Underweight'; gif = '😟'; markerPos = 8; color = '#4fc3f7'; }
+  else if (bmi < 25) { category = 'Normal Weight'; gif = '🎉'; markerPos = 32; color = '#66bb6a'; }
+  else if (bmi < 30) { category = 'Overweight'; gif = '😬'; markerPos = 62; color = '#ffb400'; }
+  else { category = 'Obese'; gif = '😥'; markerPos = 88; color = '#ff503c'; }
+
+  const box = document.getElementById('bmi-result-box');
+  box.style.display = 'block';
+  box.style.animation = 'none'; void box.offsetWidth; box.style.animation = 'fadeInUp 0.4s ease';
+  document.getElementById('bmi-gif').textContent = gif;
+  document.getElementById('bmi-number').textContent = rounded;
+  document.getElementById('bmi-number').style.color = color;
+  document.getElementById('bmi-category').textContent = category;
+  document.getElementById('bmi-scale-marker').style.left = markerPos + '%';
+  const key = bmi < 18.5 ? 'underweight' : bmi < 25 ? 'normal' : bmi < 30 ? 'overweight' : 'obese';
+  document.getElementById('bmi-result-box').dataset.bmiKey = key;
+  document.getElementById('bmi-suggestions-box').style.display = 'none';
+  suggestionsVisible = false;
+  document.getElementById('bmi-suggest-btn').textContent = 'Need Suggestions to Improve →';
+}
+
+function toggleSuggestions() {
+  const key = document.getElementById('bmi-result-box').dataset.bmiKey;
+  const box = document.getElementById('bmi-suggestions-box');
+  suggestionsVisible = !suggestionsVisible;
+  if (suggestionsVisible && key) {
+    const data = suggestionMap[key];
+    document.getElementById('suggest-title').textContent = data.title;
+    document.getElementById('suggest-list').innerHTML = data.items.map(i => `<li>${i}</li>`).join('');
+    box.style.display = 'block';
+    box.style.animation = 'none'; void box.offsetWidth; box.style.animation = 'fadeInUp 0.4s ease';
+    document.getElementById('bmi-suggest-btn').textContent = '← Hide Suggestions';
+  } else {
+    box.style.display = 'none';
+    document.getElementById('bmi-suggest-btn').textContent = 'Need Suggestions to Improve →';
+  }
+}
+</script>
+
+<!-- TRAINER TIMETABLE -->
+<section class="trainers-section" id="trainers">
+  <h2>Meet Our <span style="color:var(--accent-color)">Trainers</span></h2>
+  <p class="section-sub">Book a session with any of our 7 certified trainers. Tap a card to see schedule & contact.</p>
+
+  <div class="trainer-day-filter" id="trainer-day-filter">
+    <button class="t-day-btn active" data-day="all" onclick="filterTrainerDay(this,'all')">All Days</button>
+    <button class="t-day-btn" data-day="Mon" onclick="filterTrainerDay(this,'Mon')">Mon</button>
+    <button class="t-day-btn" data-day="Tue" onclick="filterTrainerDay(this,'Tue')">Tue</button>
+    <button class="t-day-btn" data-day="Wed" onclick="filterTrainerDay(this,'Wed')">Wed</button>
+    <button class="t-day-btn" data-day="Thu" onclick="filterTrainerDay(this,'Thu')">Thu</button>
+    <button class="t-day-btn" data-day="Fri" onclick="filterTrainerDay(this,'Fri')">Fri</button>
+    <button class="t-day-btn" data-day="Sat" onclick="filterTrainerDay(this,'Sat')">Sat</button>
+    <button class="t-day-btn" data-day="Sun" onclick="filterTrainerDay(this,'Sun')">Sun</button>
+  </div>
+
+  <div class="trainers-grid" id="trainers-grid"></div>
+  <div class="trainer-detail-panel" id="trainer-detail-panel" style="display:none;">
+    <button class="trainer-detail-close" onclick="closeTrainerDetail()">✕ Close</button>
+    <div class="trainer-detail-inner" id="trainer-detail-inner"></div>
+  </div>
+</section>
+
+<style>
+.trainers-section { padding: 80px 20px 60px; background: var(--bg-color); }
+.trainers-section h2 { font-size: 36px; margin-bottom: 8px; }
+.trainer-day-filter { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+.t-day-btn { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--muted-text); background: none; color: var(--text-color); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.t-day-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.t-day-btn.active { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+.trainers-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1100px; margin: 0 auto 40px; }
+.trainer-card { background: var(--card-bg); border-radius: 16px; padding: 24px 20px; width: 240px; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; border: 1.5px solid rgba(255,255,255,0.06); text-align: center; position: relative; }
+.light .trainer-card { border: 1.5px solid rgba(0,0,0,0.07); }
+.trainer-card:hover { transform: translateY(-6px); }
+.trainer-card.hidden { display: none; }
+.trainer-card.selected { border-color: var(--accent-color); }
+.trainer-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; color: #fff; }
+.trainer-name { font-size: 16px; font-weight: 700; color: var(--text-color); margin-bottom: 4px; }
+.trainer-specialty { font-size: 12px; color: var(--accent-color); font-weight: 600; margin-bottom: 12px; }
+.trainer-days-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.t-day-dot { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 20px; background: rgba(255,107,53,0.1); color: var(--accent-color); }
+.trainer-time { font-size: 11px; color: var(--muted-text); margin-bottom: 14px; }
+.trainer-view-btn { font-size: 12px; font-weight: 700; color: var(--accent-color); background: rgba(255,107,53,0.08); border: none; padding: 7px 16px; border-radius: 20px; cursor: pointer; transition: background 0.2s; pointer-events: none; }
+.trainer-card:hover .trainer-view-btn { background: rgba(255,107,53,0.18); }
+.trainer-detail-panel { max-width: 700px; margin: 0 auto; background: var(--card-bg); border-radius: 16px; padding: 32px; position: relative; animation: fadeInUp 0.35s ease; border: 1.5px solid var(--accent-color); }
+.trainer-detail-close { position: absolute; top: 16px; right: 20px; font-size: 13px; font-weight: 700; color: var(--muted-text); background: none; border: 1px solid rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: color 0.2s; }
+.trainer-detail-close:hover { color: var(--accent-color); }
+.trainer-detail-inner { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+.detail-left { text-align: center; min-width: 100px; }
+.detail-avatar { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 10px; }
+.detail-right { flex: 1; text-align: left; }
+.detail-right h3 { font-size: 22px; font-weight: 700; color: var(--text-color); margin-bottom: 4px; }
+.detail-specialty { color: var(--accent-color); font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.detail-item label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted-text); font-weight: 700; margin-bottom: 3px; }
+.detail-item span { font-size: 13px; color: var(--text-color); font-weight: 600; }
+.detail-timetable { margin-top: 16px; }
+.detail-timetable h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted-text); font-weight: 700; margin-bottom: 10px; }
+.timetable-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+.light .timetable-row { border-bottom: 1px solid rgba(0,0,0,0.06); }
+.timetable-day { color: var(--text-color); font-weight: 600; }
+.timetable-time { color: var(--muted-text); }
+.timetable-session { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: rgba(255,107,53,0.1); color: var(--accent-color); font-weight: 700; }
+.detail-contact-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.contact-chip-small { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-color); background: var(--bg-color); padding: 7px 14px; border-radius: 20px; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); transition: border-color 0.2s; }
+.light .contact-chip-small { border: 1px solid rgba(0,0,0,0.1); }
+.contact-chip-small:hover { border-color: var(--accent-color); color: var(--accent-color); }
+</style>
+
+<script>
+const trainersData = [
+  { id:1, name:'Arjun Sharma', specialty:'Strength & Powerlifting', emoji:'💪', color:'#c0392b', exp:'8 years', cert:'NSCA-CPT', sessions:45, days:['Mon','Wed','Fri'], schedule:[{day:'Mon',time:'6:00–8:00 AM',session:'Morning Power'},{day:'Wed',time:'5:00–7:00 PM',session:'Core Strength'},{day:'Fri',time:'7:00–9:00 AM',session:'Full Body Lift'}], phone:'+91  XXXXXXXXXX', email:'arjun@strivefit.in', bio:'Specialises in progressive overload and powerlifting. Helped 200+ clients hit new PRs.' },
+  { id:2, name:'Priya Nair', specialty:'Yoga & Flexibility', emoji:'🧘', color:'#8e44ad', exp:'6 years', cert:'RYT-500', sessions:38, days:['Tue','Thu','Sat'], schedule:[{day:'Tue',time:'7:00–8:30 AM',session:'Flow Yoga'},{day:'Thu',time:'6:00–7:30 PM',session:'Yin & Stretch'},{day:'Sat',time:'8:00–10:00 AM',session:'Weekend Reset'}], phone:'+91 XXXXXXXXXX', email:'priya@strivefit.in', bio:'Certified yoga instructor focused on flexibility, mindfulness, and injury prevention.' },
+  { id:3, name:'Karan Mehta', specialty:'HIIT & Cardio', emoji:'🔥', color:'#e67e22', exp:'5 years', cert:'ACE-CPT', sessions:52, days:['Mon','Tue','Thu','Sat'], schedule:[{day:'Mon',time:'8:00–9:00 AM',session:'HIIT Blast'},{day:'Tue',time:'6:00–7:00 PM',session:'Cardio Circuit'},{day:'Thu',time:'7:00–8:00 AM',session:'Fat Burn HIIT'},{day:'Sat',time:'7:00–8:30 AM',session:'Weekend Burn'}], phone:'+91 XXXXXXXXXX', email:'karan@strivefit.in', bio:'High-energy HIIT specialist. Classes are intense, fun, and never boring.' },
+  { id:4, name:'Sneha Rao', specialty:'Nutrition & Weight Loss', emoji:'🥗', color:'#27ae60', exp:'7 years', cert:'Certified Dietitian', sessions:30, days:['Wed','Fri','Sun'], schedule:[{day:'Wed',time:'10:00 AM–12:00 PM',session:'Meal Planning'},{day:'Fri',time:'4:00–6:00 PM',session:'Nutrition Workshop'},{day:'Sun',time:'9:00–11:00 AM',session:'Health Consult'}], phone:'+91 XXXXXXXXXX', email:'sneha@strivefit.in', bio:'Helps clients lose weight sustainably with personalised meal plans and lifestyle changes.' },
+  { id:5, name:'Vikram Singh', specialty:'Calisthenics & Bodyweight', emoji:'🤸', color:'#2980b9', exp:'9 years', cert:'NASM-CPT', sessions:60, days:['Tue','Wed','Sat','Sun'], schedule:[{day:'Tue',time:'5:30–7:00 AM',session:'Bodyweight Basics'},{day:'Wed',time:'7:00–8:30 PM',session:'Bar Skills'},{day:'Sat',time:'6:00–8:00 AM',session:'Advanced Calis'},{day:'Sun',time:'4:00–5:30 PM',session:'Mobility Work'}], phone:'+91 XXXXXXXXXX', email:'vikram@strivefit.in', bio:'Master of bodyweight training. From basics to handstands — he trains all levels.' },
+  { id:6, name:'Anjali Desai', specialty:'Zumba & Dance Fitness', emoji:'💃', color:'#e91e8c', exp:'4 years', cert:'ZIN Member', sessions:42, days:['Mon','Wed','Fri','Sat'], schedule:[{day:'Mon',time:'7:00–8:00 PM',session:'Zumba Fiesta'},{day:'Wed',time:'7:00–8:00 PM',session:'Dance Cardio'},{day:'Fri',time:'6:30–7:30 PM',session:'Party Zumba'},{day:'Sat',time:'10:00–11:30 AM',session:'Weekend Dance'}], phone:'+91 XXXXXXXXXX', email:'anjali@strivefit.in', bio:'Makes fitness fun! Her Zumba classes are always packed and full of energy.' },
+  { id:7, name:'Rahul Iyer', specialty:'Boxing & MMA Fitness', emoji:'🥊', color:'#ff6b35', exp:'10 years', cert:'USA Boxing Coach', sessions:35, days:['Tue','Thu','Sat'], schedule:[{day:'Tue',time:'6:00–7:30 PM',session:'Boxing Basics'},{day:'Thu',time:'6:00–7:30 PM',session:'Bag Work & Combos'},{day:'Sat',time:'8:00–10:00 AM',session:'Sparring & Drills'}], phone:'+91 XXXXXXXXXX', email:'rahul@strivefit.in', bio:'Former amateur boxer turned fitness coach. Burns calories while learning real boxing skills.' }
+];
+
+let activeTrainerDay = 'all';
+let selectedTrainerId = null;
+
+function renderTrainers() {
+  const grid = document.getElementById('trainers-grid');
+  grid.innerHTML = '';
+  trainersData.forEach(t => {
+    const visible = activeTrainerDay === 'all' || t.days.includes(activeTrainerDay);
+    const card = document.createElement('div');
+    card.className = 'trainer-card' + (visible ? '' : ' hidden') + (selectedTrainerId === t.id ? ' selected' : '');
+    card.innerHTML = `<div class="trainer-avatar" style="background:${t.color}">${t.emoji}</div><div class="trainer-name">${t.name}</div><div class="trainer-specialty">${t.specialty}</div><div class="trainer-days-row">${t.days.map(d=>`<span class="t-day-dot">${d}</span>`).join('')}</div><div class="trainer-time">⏰ ${t.schedule[0].time.split('–')[0]} – ${t.schedule[t.schedule.length-1].time.split('–').pop()}</div><div class="trainer-view-btn">View Details →</div>`;
+    card.onclick = () => showTrainerDetail(t.id);
+    grid.appendChild(card);
+  });
+}
+
+function filterTrainerDay(btn, day) {
+  document.querySelectorAll('.t-day-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTrainerDay = day;
+  renderTrainers();
+  if (selectedTrainerId) {
+    const t = trainersData.find(x => x.id === selectedTrainerId);
+    if (day !== 'all' && !t.days.includes(day)) closeTrainerDetail();
+  }
+}
+
+function showTrainerDetail(id) {
+  selectedTrainerId = id;
+  const t = trainersData.find(x => x.id === id);
+  const panel = document.getElementById('trainer-detail-panel');
+  const inner = document.getElementById('trainer-detail-inner');
+  const scheduleRows = t.schedule.map(s=>`<div class="timetable-row"><span class="timetable-day">${s.day}</span><span class="timetable-time">${s.time}</span><span class="timetable-session">${s.session}</span></div>`).join('');
+  inner.innerHTML = `<div class="detail-left"><div class="detail-avatar" style="background:${t.color}">${t.emoji}</div><div style="font-size:12px;color:var(--muted-text);font-weight:600;">${t.sessions} sessions</div></div><div class="detail-right"><h3>${t.name}</h3><div class="detail-specialty">${t.specialty}</div><p style="font-size:13px;color:var(--muted-text);margin-bottom:14px;line-height:1.5;">${t.bio}</p><div class="detail-grid"><div class="detail-item"><label>Experience</label><span>${t.exp}</span></div><div class="detail-item"><label>Certification</label><span>${t.cert}</span></div><div class="detail-item"><label>Available</label><span>${t.days.join(', ')}</span></div><div class="detail-item"><label>Sessions run</label><span>${t.sessions}+</span></div></div><div class="detail-timetable"><h4>Weekly Schedule</h4>${scheduleRows}</div><div class="detail-contact-row"><a href="tel:${t.phone}" class="contact-chip-small">📞 ${t.phone}</a><a href="mailto:${t.email}" class="contact-chip-small">✉️ ${t.email}</a></div></div>`;
+  panel.style.display = 'block';
+  panel.style.animation = 'none'; void panel.offsetWidth; panel.style.animation = 'fadeInUp 0.35s ease';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  renderTrainers();
+}
+
+function closeTrainerDetail() {
+  selectedTrainerId = null;
+  document.getElementById('trainer-detail-panel').style.display = 'none';
+  renderTrainers();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('trainers-grid')) renderTrainers();
+});
+</script>
+
+<!-- Features Section -->
+<section class="features">
+
+  <div class="feature-card">
+    <div class="feature-icon">🏋️</div>
+    <h3>Workouts</h3>
+    <p>Expert-crafted plans for every fitness level. Structure your routine and train with purpose — beginner to advanced.</p>
+    <a href="workout-plans.html" class="feature-btn">Plan Your Routine →</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">🥗</div>
+    <h3>Nutrition</h3>
+    <p>Real food. Real results. Meet our certified nutrition trainers and get a personalised meal plan built for your goals.</p>
+    <a href="index.html#trainers" class="feature-btn">Meet Nutrition Trainers →</a>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">📊</div>
+    <h3>Tracking</h3>
+    <p>Log your water intake, workouts, and weight every day. Watch your progress build — one rep, one glass, one step at a time.</p>
+    <a href="index.html#progress-section" class="feature-btn">Go to Progress Tracker →</a>
+  </div>
+
+</section>
+
+<section class="join-us">
+  <h2>Ready to Transform?</h2>
+  <p>Start your fitness journey with StriveFit today!</p>
+  <button>Get Started</button>
+</section>
+
+<footer>
+  <p>© 2026 StriveFit — Built with 💪 by Ocean Verma, Mandi, HP</p>
+  <p>
+    <a href="https://www.linkedin.com/in/ocean-verma-102513368" target="_blank">LinkedIn</a> |
+    <a href="mailto:307naeco16@gmail.com">Email</a> |
+    <a href="contact.html">Contact</a>
+  </p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
