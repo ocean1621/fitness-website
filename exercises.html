@@ -6,9 +6,32 @@
   <title>Exercises – StriveFit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
   <style>
-    body { font-family: 'DM Sans', Arial, sans-serif; }
+    :root {
+      --bg-color: #0f0f0f;
+      --nav-bg: #111;
+      --card-bg: #1a1a1a;
+      --text-color: #f0f0f0;
+      --muted-text: #888;
+      --accent-color: #ff6b35;
+    }
+    body { font-family: 'DM Sans', Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--nav-bg);
+      display: flex; align-items: center;
+      padding: 0 28px; height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    nav h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px; color: var(--accent-color);
+      margin: 0; margin-right: auto; letter-spacing: 2px;
+    }
+    nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+    nav ul a { color: var(--muted-text); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: var(--text-color); }
 
     /* ── HERO ── */
     .ex-hero {
@@ -64,7 +87,6 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
-    .light .cat-nav { border-bottom: 1px solid rgba(0,0,0,0.07); }
     .cat-pill {
       display: flex; align-items: center; gap: 6px;
       padding: 8px 18px; border-radius: 30px;
@@ -75,7 +97,6 @@
       font-family: 'DM Sans', Arial, sans-serif;
       white-space: nowrap;
     }
-    .light .cat-pill { border-color: rgba(0,0,0,0.1); }
     .cat-pill:hover { border-color: var(--accent-color); color: var(--accent-color); }
     .cat-pill.active {
       background: var(--accent-color);
@@ -124,7 +145,6 @@
       cursor: pointer;
       position: relative;
     }
-    .light .ex-card { border-color: rgba(0,0,0,0.07); }
     .ex-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
@@ -176,7 +196,6 @@
       max-width: 1200px;
       margin-left: auto; margin-right: auto;
     }
-    .light .section-divider { background: rgba(0,0,0,0.07); }
 
     .back-top {
       position: fixed; bottom: 28px; right: 28px;
@@ -189,6 +208,14 @@
     }
     .back-top:hover { background: #e05520; transform: scale(1.1); }
     .back-top.visible { display: flex; }
+
+    footer {
+      text-align: center; padding: 40px 20px;
+      color: var(--muted-text); font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 40px;
+    }
+    footer a { color: var(--accent-color); text-decoration: none; }
 
     @media (max-width: 600px) {
       .ex-grid { grid-template-columns: 1fr 1fr; }
@@ -204,47 +231,13 @@
 <!-- Navbar -->
 <nav>
   <h1>StriveFit</h1>
-  <ul id="nav-links">
+  <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="workout-plans.html">Plans</a></li>
     <li><a href="exercises.html">Exercises</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
-  <button id="menu-btn"><span></span><span></span><span></span></button>
 </nav>
-<div id="overlay"></div>
-<div id="side-panel">
-  <ul class="panel-menu">
-    <li><a href="index.html">🏠 Home</a></li>
-    <li><button id="policy-btn">Policy</button></li>
-    <li>
-      <div class="theme-row">
-        <span>Theme</span>
-        <button class="theme-btn" id="light-btn" title="Light">☀️</button>
-        <button class="theme-btn" id="dark-btn" title="Dark">🌙</button>
-      </div>
-    </li>
-    <li>
-      <div class="account-section">
-        <button class="account-toggle" id="account-btn">👤 Account</button>
-        <div class="account-details" id="account-details">
-          <div class="user-icon">👤</div>
-          <p>Email: <span>307naeco16@gmail.com</span></p>
-          <p>Mobile: <span>+91 8580513002</span></p>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
-<div id="policy-popup">
-  <div class="policy-box">
-    <button class="policy-close" id="policy-close">✕</button>
-    <h2>Privacy Policy</h2>
-    <p>At StriveFit, we are committed to safeguarding your privacy.</p>
-    <h3>Contact Us</h3>
-    <p>Questions? Mail us at: <span style="color:var(--accent-color)">307naeco16@gmail.com</span></p>
-  </div>
-</div>
 
 <!-- Hero -->
 <section class="ex-hero">
@@ -255,15 +248,15 @@
 
 <!-- Sticky Category Nav -->
 <nav class="cat-nav" id="cat-nav">
-  <button class="cat-pill active" onclick="scrollTo('chest')">🏋️ Chest</button>
-  <button class="cat-pill" onclick="scrollTo('back')">💪 Back</button>
-  <button class="cat-pill" onclick="scrollTo('legs')">🦵 Legs</button>
-  <button class="cat-pill" onclick="scrollTo('arms')">💪 Arms</button>
-  <button class="cat-pill" onclick="scrollTo('shoulders')">🔝 Shoulders</button>
-  <button class="cat-pill" onclick="scrollTo('core')">⚡ Core</button>
-  <button class="cat-pill" onclick="scrollTo('cardio')">🏃 Cardio</button>
-  <button class="cat-pill" onclick="scrollTo('fullbody')">🔥 Full Body</button>
-  <button class="cat-pill" onclick="scrollTo('stretch')">🧘 Stretching</button>
+  <button class="cat-pill active" onclick="scrollToSection('chest', event)">🏋️ Chest</button>
+  <button class="cat-pill" onclick="scrollToSection('back', event)">💪 Back</button>
+  <button class="cat-pill" onclick="scrollToSection('legs', event)">🦵 Legs</button>
+  <button class="cat-pill" onclick="scrollToSection('arms', event)">💪 Arms</button>
+  <button class="cat-pill" onclick="scrollToSection('shoulders', event)">🔝 Shoulders</button>
+  <button class="cat-pill" onclick="scrollToSection('core', event)">⚡ Core</button>
+  <button class="cat-pill" onclick="scrollToSection('cardio', event)">🏃 Cardio</button>
+  <button class="cat-pill" onclick="scrollToSection('fullbody', event)">🔥 Full Body</button>
+  <button class="cat-pill" onclick="scrollToSection('stretch', event)">🧘 Stretching</button>
 </nav>
 
 <!-- ── CHEST ── -->
@@ -276,9 +269,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/pushups.jpg" alt="Push-ups" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&auto=format&fit=crop&q=80" alt="Push-ups" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -288,9 +282,10 @@
         <div class="ex-meta"><span class="ex-tag">3×15 reps</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/bench-press.jpg" alt="Bench Press" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80" alt="Bench Press" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -300,9 +295,10 @@
         <div class="ex-meta"><span class="ex-tag">4×8 reps</span><span class="ex-tag">Barbell</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/dumbbell-flyes.jpg" alt="Dumbbell Flyes" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&auto=format&fit=crop&q=80" alt="Dumbbell Flyes" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -312,9 +308,10 @@
         <div class="ex-meta"><span class="ex-tag">3×12 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/chest-dips.jpg" alt="Chest Dips" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=600&auto=format&fit=crop&q=80" alt="Chest Dips" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-advanced">Advanced</span>
       </div>
@@ -324,9 +321,9 @@
         <div class="ex-meta"><span class="ex-tag">3×10 reps</span><span class="ex-tag">Bodyweight</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── BACK ── -->
@@ -339,9 +336,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/pullups.jpg" alt="Pull-Ups" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1604480132736-44c188fe4d20?w=600&auto=format&fit=crop&q=80" alt="Pull-Ups" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -351,9 +349,10 @@
         <div class="ex-meta"><span class="ex-tag">4×8 reps</span><span class="ex-tag">Pull-up Bar</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/deadlift.jpg" alt="Deadlift" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1517344884509-a0c97ec11bcc?w=600&auto=format&fit=crop&q=80" alt="Deadlift" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-advanced">Advanced</span>
       </div>
@@ -363,9 +362,10 @@
         <div class="ex-meta"><span class="ex-tag">4×5 reps</span><span class="ex-tag">Barbell</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/bent-over-row.jpg" alt="Bent Over Row" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&auto=format&fit=crop&q=80" alt="Bent Over Row" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -375,10 +375,22 @@
         <div class="ex-meta"><span class="ex-tag">4×10 reps</span><span class="ex-tag">Barbell</span></div>
       </div>
     </div>
-    <!-- Lat Pulldown REMOVED (broken image) -->
+
+    <div class="ex-card">
+      <div class="ex-img-wrap">
+        <img src="https://images.unsplash.com/photo-1530822847156-5df684ec5933?w=600&auto=format&fit=crop&q=80" alt="Lat Pulldown" loading="lazy">
+        <div class="ex-img-overlay"></div>
+        <span class="ex-level level-beginner">Beginner</span>
+      </div>
+      <div class="ex-body">
+        <h3>Lat Pulldown</h3>
+        <p>Great introduction to lat training. Builds width and improves pulling strength.</p>
+        <div class="ex-meta"><span class="ex-tag">4×12 reps</span><span class="ex-tag">Cable Machine</span></div>
+      </div>
+    </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── LEGS ── -->
@@ -391,9 +403,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/squats.jpg" alt="Squats" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1567598508481-65985588e295?w=600&auto=format&fit=crop&q=80" alt="Squats" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -403,9 +416,10 @@
         <div class="ex-meta"><span class="ex-tag">4×12 reps</span><span class="ex-tag">Bodyweight / Barbell</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/lunges.jpg" alt="Lunges" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1652363722833-509b3aac287b?w=600&auto=format&fit=crop&q=80" alt="Lunges" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -415,10 +429,23 @@
         <div class="ex-meta"><span class="ex-tag">3×12 each</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
-    <!-- Leg Press REMOVED (broken image) -->
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/romanian-deadlift.jpg" alt="Romanian Deadlift" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=600&auto=format&fit=crop&q=80" alt="Leg Press" loading="lazy">
+        <div class="ex-img-overlay"></div>
+        <span class="ex-level level-beginner">Beginner</span>
+      </div>
+      <div class="ex-body">
+        <h3>Leg Press</h3>
+        <p>Machine-based quad and glute builder — great for loading heavy safely.</p>
+        <div class="ex-meta"><span class="ex-tag">4×10 reps</span><span class="ex-tag">Leg Press Machine</span></div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-img-wrap">
+        <img src="https://images.unsplash.com/photo-1599744331096-b9b5e3c384df?w=600&auto=format&fit=crop&q=80" alt="Romanian Deadlift" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -428,9 +455,9 @@
         <div class="ex-meta"><span class="ex-tag">3×10 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── ARMS ── -->
@@ -443,9 +470,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/bicep-curl.jpg" alt="Bicep Curl" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&auto=format&fit=crop&q=80" alt="Bicep Curl" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -455,9 +483,10 @@
         <div class="ex-meta"><span class="ex-tag">3×12 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/tricep-dips.jpg" alt="Tricep Dips" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=600&auto=format&fit=crop&q=80" alt="Tricep Dips" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -467,9 +496,10 @@
         <div class="ex-meta"><span class="ex-tag">3×15 reps</span><span class="ex-tag">Bodyweight</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/hammer-curl.jpg" alt="Hammer Curl" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&auto=format&fit=crop&q=80" alt="Hammer Curl" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -479,9 +509,10 @@
         <div class="ex-meta"><span class="ex-tag">3×12 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/skull-crushers.jpg" alt="Skull Crushers" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=600&auto=format&fit=crop&q=80" alt="Skull Crushers" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -491,9 +522,9 @@
         <div class="ex-meta"><span class="ex-tag">4×10 reps</span><span class="ex-tag">EZ Bar</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── SHOULDERS ── -->
@@ -506,9 +537,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/overhead-press.jpg" alt="Overhead Press" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=600&auto=format&fit=crop&q=80" alt="Overhead Press" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -518,9 +550,10 @@
         <div class="ex-meta"><span class="ex-tag">4×8 reps</span><span class="ex-tag">Barbell</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/lateral-raises.jpg" alt="Lateral Raises" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1550345332-09e3ac987658?w=600&auto=format&fit=crop&q=80" alt="Lateral Raises" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -530,9 +563,10 @@
         <div class="ex-meta"><span class="ex-tag">3×15 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/face-pulls.jpg" alt="Face Pulls" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&auto=format&fit=crop&q=80" alt="Face Pulls" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -542,9 +576,10 @@
         <div class="ex-meta"><span class="ex-tag">3×15 reps</span><span class="ex-tag">Cable Machine</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/arnold-press.jpg" alt="Arnold Press" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?w=600&auto=format&fit=crop&q=80" alt="Arnold Press" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-advanced">Advanced</span>
       </div>
@@ -554,9 +589,9 @@
         <div class="ex-meta"><span class="ex-tag">3×10 reps</span><span class="ex-tag">Dumbbells</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── CORE ── -->
@@ -569,9 +604,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/plank.jpg" alt="Plank" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&auto=format&fit=crop&q=80" alt="Plank" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -581,9 +617,10 @@
         <div class="ex-meta"><span class="ex-tag">3×45 sec</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/crunches.jpg" alt="Crunches" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&auto=format&fit=crop&q=80" alt="Crunches" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -593,9 +630,10 @@
         <div class="ex-meta"><span class="ex-tag">3×20 reps</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/leg-raises.jpg" alt="Leg Raises" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=600&auto=format&fit=crop&q=80" alt="Leg Raises" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -605,9 +643,10 @@
         <div class="ex-meta"><span class="ex-tag">3×15 reps</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/russian-twist.jpg" alt="Russian Twist" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&fit=crop&q=80" alt="Russian Twist" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -617,9 +656,9 @@
         <div class="ex-meta"><span class="ex-tag">3×20 reps</span><span class="ex-tag">Optional Weight</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── CARDIO ── -->
@@ -632,9 +671,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/running.jpg" alt="Running" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&auto=format&fit=crop&q=80" alt="Running" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -644,10 +684,23 @@
         <div class="ex-meta"><span class="ex-tag">20–45 min</span><span class="ex-tag">Outdoor / Treadmill</span></div>
       </div>
     </div>
-    <!-- Jump Rope REMOVED (broken image) -->
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/cycling.jpg" alt="Cycling" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1434596922112-19c563067271?w=600&auto=format&fit=crop&q=80" alt="Jump Rope" loading="lazy">
+        <div class="ex-img-overlay"></div>
+        <span class="ex-level level-beginner">Beginner</span>
+      </div>
+      <div class="ex-body">
+        <h3>Jump Rope</h3>
+        <p>High-intensity cardio that torches calories and improves coordination fast.</p>
+        <div class="ex-meta"><span class="ex-tag">3×3 min rounds</span><span class="ex-tag">Jump Rope</span></div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-img-wrap">
+        <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&auto=format&fit=crop&q=80" alt="Cycling" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -657,9 +710,10 @@
         <div class="ex-meta"><span class="ex-tag">30–60 min</span><span class="ex-tag">Bike / Stationary</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/stair-climbing.jpg" alt="Stair Climber" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&auto=format&fit=crop&q=80" alt="Stair Climbing" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -669,9 +723,9 @@
         <div class="ex-meta"><span class="ex-tag">20–30 min</span><span class="ex-tag">Stairs / Machine</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── FULL BODY ── -->
@@ -684,9 +738,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/burpees.jpg" alt="Burpees" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1593164842264-854604db2260?w=600&auto=format&fit=crop&q=80" alt="Burpees" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -696,9 +751,10 @@
         <div class="ex-meta"><span class="ex-tag">4×15 reps</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/kettlebell-swings.jpg" alt="Kettlebell Swing" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1604480133435-25b86862d276?w=600&auto=format&fit=crop&q=80" alt="Kettlebell Swings" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-intermediate">Intermediate</span>
       </div>
@@ -708,10 +764,23 @@
         <div class="ex-meta"><span class="ex-tag">4×20 reps</span><span class="ex-tag">Kettlebell</span></div>
       </div>
     </div>
-    <!-- Clean & Press REMOVED (broken image) -->
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/thrusters.jpg" alt="Thrusters" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&auto=format&fit=crop&q=80" alt="Clean and Press" loading="lazy">
+        <div class="ex-img-overlay"></div>
+        <span class="ex-level level-advanced">Advanced</span>
+      </div>
+      <div class="ex-body">
+        <h3>Clean & Press</h3>
+        <p>Olympic movement that develops total-body power, coordination, and strength.</p>
+        <div class="ex-meta"><span class="ex-tag">4×6 reps</span><span class="ex-tag">Barbell</span></div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-img-wrap">
+        <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&auto=format&fit=crop&q=80" alt="Thrusters" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-advanced">Advanced</span>
       </div>
@@ -721,9 +790,9 @@
         <div class="ex-meta"><span class="ex-tag">4×10 reps</span><span class="ex-tag">Dumbbells / Barbell</span></div>
       </div>
     </div>
+
   </div>
 </section>
-
 <hr class="section-divider">
 
 <!-- ── STRETCHING ── -->
@@ -736,9 +805,10 @@
     </div>
   </div>
   <div class="ex-grid">
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/sun-salutation.jpg" alt="Sun Salutation" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&fit=crop&q=80" alt="Sun Salutation" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -748,9 +818,10 @@
         <div class="ex-meta"><span class="ex-tag">5–10 rounds</span><span class="ex-tag">Yoga Mat</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/hip-flexor-stretch.jpg" alt="Hip Flexor Stretch" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&auto=format&fit=crop&q=80" alt="Hip Flexor Stretch" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -760,9 +831,10 @@
         <div class="ex-meta"><span class="ex-tag">3×30 sec each</span><span class="ex-tag">No Equipment</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/foam-rolling.jpg" alt="Foam Rolling" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1570691079236-4bca6c45d440?w=600&auto=format&fit=crop&q=80" alt="Foam Rolling" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -772,9 +844,10 @@
         <div class="ex-meta"><span class="ex-tag">10–15 min</span><span class="ex-tag">Foam Roller</span></div>
       </div>
     </div>
+
     <div class="ex-card">
       <div class="ex-img-wrap">
-        <img src="images/exercises/childs-pose.jpg" alt="Child's Pose" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=600&auto=format&fit=crop&q=80" alt="Child's Pose" loading="lazy">
         <div class="ex-img-overlay"></div>
         <span class="ex-level level-beginner">Beginner</span>
       </div>
@@ -784,6 +857,7 @@
         <div class="ex-meta"><span class="ex-tag">Hold 60 sec</span><span class="ex-tag">Yoga Mat</span></div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -799,9 +873,8 @@
 <!-- Back to Top -->
 <button class="back-top" id="back-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-<script src="script.js"></script>
 <script>
-  function scrollTo(id) {
+  function scrollToSection(id, event) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
     event.target.classList.add('active');
@@ -812,7 +885,6 @@
 
   window.addEventListener('scroll', () => {
     document.getElementById('back-top-btn').classList.toggle('visible', window.scrollY > 400);
-
     let current = '';
     sections.forEach(id => {
       const el = document.getElementById(id);
